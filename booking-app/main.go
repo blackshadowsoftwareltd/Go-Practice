@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 func main() {
@@ -17,9 +18,12 @@ func main() {
 	fmt.Println("Get your tickets here to attend")
 	for {
 
-		var firstName, lastName string
+		var firstName, lastName, email string
 		var userTickets uint
 		// ask user for their name
+
+		fmt.Println("Enter your Email : ")
+		fmt.Scan(&email)
 
 		fmt.Println("Enter your first name : ")
 		fmt.Scan(&firstName)
@@ -29,12 +33,18 @@ func main() {
 
 		fmt.Println("Enter numger of tickets : ")
 		fmt.Scan(&userTickets)
-		if userTickets <= remainingTickets {
+
+		isValidName := len(firstName) >= 3 && len(lastName) >= 3
+		isValidEmail := strings.Contains(email, "@")
+		isValidTicket :=
+			userTickets > 0 && userTickets <= remainingTickets
+
+		if isValidName && isValidEmail && isValidTicket {
 
 			remainingTickets = remainingTickets - userTickets
 			bokings = append(bokings, firstName+" "+lastName)
 
-			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email \n", firstName, lastName, userTickets)
+			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation at %v \n", firstName, lastName, userTickets, email)
 			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
 			if remainingTickets == 0 {

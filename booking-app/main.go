@@ -5,22 +5,25 @@ import (
 	"strings"
 )
 
+const conferenceName = "Go Conference"
+const conferenceTickets int = 50
+
+var remainingTickets uint = uint(conferenceTickets)
+var bokings []string
+var firstName, lastName, email string
+var userTickets uint
+
 func main() {
-	conferenceName := "Go Conference"
-	const conferenceTickets int = 50
-	var remainingTickets uint = uint(conferenceTickets)
-	var bokings []string
-	greetUsers(conferenceName, conferenceTickets, remainingTickets)
+
+	greetUsers()
 
 	for {
 
-		var firstName, lastName, email string
-		var userTickets uint
 		// ask user for their name
 
 		email = pickUserEmail(email)
-		firstName, lastName = pickFirstAndLastName(firstName,lastName)
-		userTickets = pickUserTickets(userTickets)
+		firstName, lastName = pickFirstAndLastName()
+		userTickets = pickUserTickets()
 
 		isValidName := len(firstName) >= 3 && len(lastName) >= 3
 		isValidEmail := strings.Contains(email, "@")
@@ -47,13 +50,13 @@ func main() {
 
 	}
 }
-func pickUserTickets(userTickets uint) uint {
+func pickUserTickets() uint {
 	fmt.Println("Enter numger of tickets : ")
 	fmt.Scan(&userTickets)
 	return userTickets
 }
 
-func pickFirstAndLastName(firstName, lastName string) (string, string) {
+func pickFirstAndLastName() (string, string) {
 	fmt.Println("Enter your first name : ")
 	fmt.Scan(&firstName)
 
@@ -68,7 +71,7 @@ func pickUserEmail(email string) string {
 
 }
 
-func greetUsers(conferenceName string, conferenceTickets int, remainingTickets uint) {
+func greetUsers() {
 	fmt.Printf("Welcome to %v booking application\n", conferenceName)
 	fmt.Printf("We have total of %v tickets and %v are still available\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your tickets here to attend")

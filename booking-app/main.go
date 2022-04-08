@@ -1,6 +1,7 @@
 package main
 
 import (
+	"booking-app/helper"
 	"fmt"
 	"strings"
 )
@@ -15,7 +16,7 @@ var userTickets uint
 
 func main() {
 
-	greetUsers()
+	helper.GreetUsers(conferenceName, conferenceTickets, remainingTickets)
 
 	for {
 
@@ -69,10 +70,4 @@ func pickUserEmail(email string) string {
 	fmt.Scan(&email)
 	return email
 
-}
-
-func greetUsers() {
-	fmt.Printf("Welcome to %v booking application\n", conferenceName)
-	fmt.Printf("We have total of %v tickets and %v are still available\n", conferenceTickets, remainingTickets)
-	fmt.Println("Get your tickets here to attend")
 }

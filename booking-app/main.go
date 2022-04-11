@@ -60,6 +60,7 @@ func main() {
 	}
 
 }
+
 func pickUserTickets() uint {
 	fmt.Println("Enter numger of tickets : ")
 	fmt.Scan(&userTickets)

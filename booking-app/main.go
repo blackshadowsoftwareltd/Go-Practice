@@ -3,62 +3,90 @@ package main
 import (
 	"booking-app/helper"
 	"fmt"
-	"strconv"
 	"strings"
+	"sync"
+	"time"
 )
 
 const conferenceName = "Go Conference"
 const conferenceTickets int = 50
 
 var remainingTickets uint = uint(conferenceTickets)
-var bokings = make([]map[string]string, 0)
+var bokings = make([]UserData, 0)
 var firstName, lastName, email string
 var userTickets uint
+
+type UserData struct {
+	firstName       string
+	lastName        string
+	email           string
+	numberOfTickets uint
+}
+
+var waitGroup = sync.WaitGroup{}
 
 func main() {
 
 	helper.GreetUsers(conferenceName, conferenceTickets, remainingTickets)
 
-	for {
+	// ask user for their name
 
-		// ask user for their name
+	email = pickUserEmail(email)
+	firstName, lastName = pickFirstAndLastName()
+	userTickets = pickUserTickets()
 
-		email = pickUserEmail(email)
-		firstName, lastName = pickFirstAndLastName()
-		userTickets = pickUserTickets()
+	isValidName := len(firstName) >= 3 && len(lastName) >= 3
+	isValidEmail := strings.Contains(email, "@")
+	isValidTicket :=
+		userTickets > 0 && userTickets <= remainingTickets
 
-		isValidName := len(firstName) >= 3 && len(lastName) >= 3
-		isValidEmail := strings.Contains(email, "@")
-		isValidTicket :=
-			userTickets > 0 && userTickets <= remainingTickets
+	if isValidName && isValidEmail && isValidTicket {
 
-		if isValidName && isValidEmail && isValidTicket {
+		remainingTickets = remainingTickets - userTickets
 
-			remainingTickets = remainingTickets - userTickets
+		waitGroup.Add(2)
+		go sendTicket(firstName, lastName, userTickets)	 
+		go taskDone()
 
-			var userData = make(map[string]string)
-			userData["firstName"] = firstName
-			userData["lastName"] = lastName
-			userData["email"] = email
-			userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10)
-
-			bokings = append(bokings, userData)
-			fmt.Printf("\nbookings map %v\n", bokings)
-			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation at %v \n", firstName, lastName, userTickets, email)
-			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
-
-			if remainingTickets == 0 {
-				// end program
-				fmt.Printf("Our conference is booked out. Come back next year!\n")
-				break
-			}
-		} else {
-			fmt.Printf("We onley have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
-
+		var userData = UserData{
+			firstName:       firstName,
+			lastName:        lastName,
+			email:           email,
+			numberOfTickets: userTickets,
 		}
+
+		bokings = append(bokings, userData)
+		fmt.Printf("\nbookings map %v\n", bokings)
+		fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation at %v \n", firstName, lastName, userTickets, email)
+		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+
+		if remainingTickets == 0 {
+			// end program
+			fmt.Printf("Our conference is booked out. Come back next year!\n")
+			// break
+		}
+	} else {
+		fmt.Printf("We onley have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
 
 	}
 
+	waitGroup.Wait()
+
+}
+
+func sendTicket(
+	firstName string, lastName string, userTickets uint) {
+	time.Sleep(time.Second * 5)
+	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
+	fmt.Println("--------------------------------------------------------------------------------")
+	fmt.Printf("Sending ticket:\n %v to email address %v\n", ticket, email)
+	fmt.Println("--------------------------------------------------------------------------------")
+	waitGroup.Done()
+}
+func taskDone() {
+	time.Sleep(time.Second * 7)
+	fmt.Println(" Task done --------------------------------------------------------------------------------")
+	waitGroup.Done()
 }
 
 func pickUserTickets() uint {

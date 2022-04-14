@@ -4,14 +4,12 @@ import (
 	"fmt"
 )
 
-func main() {
-	names:=[]string {"Bob","John","Mike","Tom"}
-	fmt.Println(names)
-	temp:=names[1:3]
-	fmt.Println(temp)
-	temp[0]="MR. X"
-	fmt.Println(temp)
-	fmt.Println(names)
- }
+type Object struct {
+	name string
+	age  int
+}
 
- 
+func main() {
+	var names string
+	fmt.Println(names=="")
+}

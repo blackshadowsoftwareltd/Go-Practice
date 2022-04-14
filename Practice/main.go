@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 type Object struct {
@@ -11,22 +10,19 @@ type Object struct {
 }
 
 func main() {
-	
-	/// slice with append
-	var arrays []string
-	arrays = append(arrays, "X")
-	arrays = append(arrays, "Y")
-	arrays = append(arrays, "Z")
-	fmt.Print(arrays)
-
-	/// 2d slice with append
-	board := [][]string{
-		{"_", "_", "_"},
-		{"_", "_", "_"},
-		{"_", "_", "_"},
+	var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+	/// range return index and value from slice
+	for index, value := range pow {
+		fmt.Printf(" %d index = value %d\n", index, value)
 	}
-	board = append(board, []string{"X", "_", "_"})
-	for i := 0; i < len(board); i++ {
-		fmt.Printf("%s\n", strings.Join(board[i], " "))
+
+	/// range without index
+	for _, value := range pow {
+		fmt.Printf("value %d\n", value)
+	}
+
+	/// range without value
+	for index, _ := range pow {
+		fmt.Printf("index %d\n", index)
 	}
 }

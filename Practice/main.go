@@ -5,20 +5,27 @@ import (
 	"strings"
 )
 
-func main() {	// Create a tic-tac-toe board.
+type Object struct {
+	name string
+	age  int
+}
+
+func main() {
+	
+	/// slice with append
+	var arrays []string
+	arrays = append(arrays, "X")
+	arrays = append(arrays, "Y")
+	arrays = append(arrays, "Z")
+	fmt.Print(arrays)
+
+	/// 2d slice with append
 	board := [][]string{
 		{"_", "_", "_"},
-		 {"_", "_", "_"},
-		 {"_", "_", "_"},
+		{"_", "_", "_"},
+		{"_", "_", "_"},
 	}
-
-	// The players take turns.
-	board[0][0] = "X"
-	board[2][2] = "O"
-	board[1][2] = "X"
-	board[1][0] = "O"
-	board[0][2] = "X"
-
+	board = append(board, []string{"X", "_", "_"})
 	for i := 0; i < len(board); i++ {
 		fmt.Printf("%s\n", strings.Join(board[i], " "))
 	}

@@ -1,20 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"time"
+	"fmt" 
 )
 
 func main() {
 
-	time := time.Now()
-	switch {
-	case time.Hour() < 12:
-		fmt.Println("Good morning")
-	case time.Hour() < 17:
-		fmt.Println("Good afternoon")
-	default:
-		fmt.Println("Good evening")
+	fmt.Println("counting")
+
+	for i := 0; i < 10; i++ {
+		defer fmt.Println(i)
 	}
+
+	fmt.Println("done")
 
 }

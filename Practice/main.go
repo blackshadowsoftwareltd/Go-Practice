@@ -2,21 +2,19 @@ package main
 
 import (
 	"fmt"
-	"runtime"
+	"time"
 )
 
 func main() {
-	os := runtime.GOOS
-	fmt.Println(os)
-	switch os {
-	case "darwin":
-		fmt.Println("OS X")
-	case "linux":
-		fmt.Println("Linux")
-	case "windows":
-		fmt.Println("Windows")
+
+	time := time.Now()
+	switch {
+	case time.Hour() < 12:
+		fmt.Println("Good morning")
+	case time.Hour() < 17:
+		fmt.Println("Good afternoon")
 	default:
-		fmt.Println("....")
+		fmt.Println("Good evening")
 	}
 
 }

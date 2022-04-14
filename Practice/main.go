@@ -5,10 +5,13 @@ import (
 )
 
 func main() {
-	var sum int
-	for i := 1; i < 10000; i++ {
-		sum += i
-		fmt.Println(i)
+	sum := 1
+	for {
+		sum = sum + 1
+		if sum == 10 {
+			break
+		}
 	}
 	fmt.Println(sum)
+
 }

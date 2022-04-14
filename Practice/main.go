@@ -2,27 +2,21 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 )
 
-type Object struct {
+type UserData struct {
 	name string
 	age  int
 }
 
 func main() {
-	var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
-	/// range return index and value from slice
-	for index, value := range pow {
-		fmt.Printf(" %d index = value %d\n", index, value)
-	}
 
-	/// range without index
-	for _, value := range pow {
-		fmt.Printf("value %d\n", value)
+	userInfo := make(map[string]UserData)
+	for i := 0; i < 10; i++ {
+		key := "user" + strconv.FormatInt(int64(i), 10)
+		userInfo[key] = UserData{name: "Mr.X", age: i}
 	}
+	fmt.Println(userInfo)
 
-	/// range without value
-	for index, _ := range pow {
-		fmt.Printf("index %d\n", index)
-	}
 }

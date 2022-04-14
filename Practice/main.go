@@ -5,12 +5,13 @@ import (
 )
 
 func main() {
-	var data Objects = Objects{"Remon", "", 22}
-	data.lastName = "Ahammad"
-	fmt.Println("First name : ", data.firstName, "\nLast name : ", data.lastName, "\nAge : ", data.age)
-}
+	names:=[]string {"Bob","John","Mike","Tom"}
+	fmt.Println(names)
+	temp:=names[1:3]
+	fmt.Println(temp)
+	temp[0]="MR. X"
+	fmt.Println(temp)
+	fmt.Println(names)
+ }
 
-type Objects struct {
-	firstName, lastName string
-	age                 int
-}
+ 

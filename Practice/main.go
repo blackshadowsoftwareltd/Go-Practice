@@ -1,17 +1,15 @@
 package main
 
 import (
-	"fmt" 
+	"fmt"
 )
 
 func main() {
+	var data Objects = Objects{"Remon", 22}
+	fmt.Println("Name : ", data.name, "\nAge : ", data.age)
+}
 
-	fmt.Println("counting")
-
-	for i := 0; i < 10; i++ {
-		defer fmt.Println(i)
-	}
-
-	fmt.Println("done")
-
+type Objects struct {
+	name string
+	age  int
 }

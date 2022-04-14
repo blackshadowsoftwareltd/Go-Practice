@@ -2,16 +2,21 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 )
 
 func main() {
-	sum := 1
-	for {
-		sum = sum + 1
-		if sum == 10 {
-			break
-		}
+	os := runtime.GOOS
+	fmt.Println(os)
+	switch os {
+	case "darwin":
+		fmt.Println("OS X")
+	case "linux":
+		fmt.Println("Linux")
+	case "windows":
+		fmt.Println("Windows")
+	default:
+		fmt.Println("....")
 	}
-	fmt.Println(sum)
 
 }

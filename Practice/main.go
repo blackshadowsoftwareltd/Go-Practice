@@ -2,21 +2,19 @@ package main
 
 import (
 	"fmt"
-	"strconv"
+	"math"
 )
 
-type UserData struct {
-	name string
-	age  int
+type MyFloat float64
+
+func (f MyFloat) Abs() float64 {
+	if f < 0 {
+		return float64(-f)
+	}
+	return float64(f)
 }
 
 func main() {
-
-	userInfo := make(map[string]UserData)
-	for i := 0; i < 10; i++ {
-		key := "user" + strconv.FormatInt(int64(i), 10)
-		userInfo[key] = UserData{name: "Mr.X", age: i}
-	}
-	fmt.Println(userInfo)
-
+	f := MyFloat(-math.Sqrt2)
+	fmt.Println(f.Abs())
 }

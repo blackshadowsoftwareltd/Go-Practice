@@ -1,20 +1,17 @@
 package main
 
-import (
-	"fmt"
-	"math"
-)
+import "fmt"
 
-type MyFloat float64
-
-func (f MyFloat) Abs() float64 {
-	if f < 0 {
-		return float64(-f)
-	}
-	return float64(f)
+type I interface {
+	M()
 }
 
 func main() {
-	f := MyFloat(-math.Sqrt2)
-	fmt.Println(f.Abs())
+	var i I
+	describe(i)
+	i.M()
+}
+
+func describe(i I) {
+	fmt.Printf("(%v, %T)\n", i, i)
 }

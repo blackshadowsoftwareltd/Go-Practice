@@ -1,17 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"go/types"
+)
 
-type I interface {
-	M()
-}
+func main(){
+	var i interface{} = "hello"
 
-func main() {
-	var i I
-	describe(i)
-	i.M()
-}
-
-func describe(i I) {
-	fmt.Printf("(%v, %T)\n", i, i)
+	s := i.(types)
+	fmt.Println(s)
 }

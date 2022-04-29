@@ -8,6 +8,9 @@ import (
 func main() {
 
 	data := "Hello World World"
-	fmt.Print(strings.ReplaceAll(data, "World", "Earth"))
+	fmt.Println(strings.ToUpper(data))
+	fmt.Println(strings.ToLower(data))
+	fmt.Println(strings.Index(data,"W"))
+	fmt.Println(strings.Split(data," "))
 
 }

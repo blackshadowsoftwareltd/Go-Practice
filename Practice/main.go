@@ -2,8 +2,12 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
-func main(}{
-	fmt.Println("....")
+func main() {
+
+	data := "Hello World World"
+	fmt.Print(strings.ReplaceAll(data, "World", "Earth"))
+
 }

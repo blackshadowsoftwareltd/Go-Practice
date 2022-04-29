@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
-func main(){
-//? comment
+func main() {
 
+	data := "Hello World World"
+	fmt.Print(strings.ReplaceAll(data, "World", "Earth"))
 
 }
-//?--------------

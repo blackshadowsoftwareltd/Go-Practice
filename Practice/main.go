@@ -5,17 +5,11 @@ import (
 )
 
 func main() {
-	name := "Remon"
-	address := &name //? for getting memory address. use &
+	firstBill := newBill("John")
+	fmt.Println(firstBill)
 
-	fmt.Println("memory address of name: ", address)
-	fmt.Println("value of memory address: ", *address) //? for getting value of memory address. use *
+	// fmt.Println(bill.format(firstBill)) //? call using bill struct (first way)
 
-	fmt.Println(name)
-	changValueUsingPointer(address)
-	fmt.Println(name)
-}
+	fmt.Println(firstBill.format()) //? call using bill struct (second way)
 
-func changValueUsingPointer(x *string) { //? for changing value usint pointer use * before data type and data
-	*x = "Remon Ahammad"
 }

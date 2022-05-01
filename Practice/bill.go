@@ -28,3 +28,8 @@ func (b bill) format() string {
 	//? only 25 takes 25 character space before this value. ex (%25v)
 	return fs
 }
+
+func (b bill) updateQuantity(quantity int) {
+	b.quantity = quantity
+}
+func (b bill) addItem(name string, price float64) { b.items[name] = price }

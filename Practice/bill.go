@@ -15,7 +15,7 @@ func newBill(name string) bill {
 
 }
 
-func (b bill) format() string {
+func (b *bill) format() string {
 	fs := "Bill breakdown : \n"
 	var total float64 = 0
 
@@ -23,13 +23,14 @@ func (b bill) format() string {
 		fs += fmt.Sprintf("%-25v $%v \n", key+" :", value) //? Sprint & Sprintf
 		total += value
 	}
+	fs += fmt.Sprintf("%-25v %v\n", "quantity :", b.quantity)
 	fs += fmt.Sprintf("%-25v $%0.2f", "total :", total) //? %0.2f means 2 charactar after the decimal point
 	//?-25 means, it takes 25 character space after this value. ex (%-25v)
 	//? only 25 takes 25 character space before this value. ex (%25v)
 	return fs
 }
 
-func (b bill) updateQuantity(quantity int) {
-	b.quantity = quantity
+func (b *bill) updateQuantity(quantity int) { //? use reference to update quantity (b *bill)
+	b.quantity = quantity //? others way is (b).quantity = quantity
 }
-func (b bill) addItem(name string, price float64) { b.items[name] = price }
+func (b *bill) addItem(name string, price float64) { b.items[name] = price }

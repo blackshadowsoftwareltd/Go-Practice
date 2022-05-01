@@ -1,19 +1,38 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strings"
 )
 
 func main() {
-	firstBill := newBill("John")
+	myBill := createBill()
+	promptOptions(myBill)
+	fmt.Println(myBill)
+}
+func createBill() bill {
+	reader := bufio.NewReader(os.Stdin)
 
-	firstBill.addItem("onion soup", 4.45)
-	firstBill.addItem("veg pie", 8.50)
-	firstBill.addItem("toffee pudding", 4.95)
-	firstBill.addItem("coffee", 2.25)
+	name, _ := getInput("Create a new bill name : ", reader)
 
-	firstBill.updateQuantity(4)
+	b := newBill(name)
+	fmt.Println("Created a new bill - ", b.buyerName)
 
-	fmt.Println(firstBill.format()) //? call using bill struct (second way)
+	return b
+}
 
+func getInput(prompt string, reader *bufio.Reader) (string, error) {
+
+	fmt.Print(prompt)
+	input, err := reader.ReadString('\n')
+
+	return strings.TrimSpace(input), err
+}
+
+func promptOptions(b bill) {
+	reader := bufio.NewReader(os.Stdin)
+	opt, _ := getInput("Chose option a - add item, s -save bill, q - add quantity", reader)
+	fmt.Println(opt)
 }

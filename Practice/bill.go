@@ -12,7 +12,6 @@ func newBill(name string) bill {
 
 	b := bill{buyerName: name, quantity: 1, items: map[string]float64{"pie": 2.99, "cake": 3.99}}
 	return b
-
 }
 
 func (b *bill) format() string {

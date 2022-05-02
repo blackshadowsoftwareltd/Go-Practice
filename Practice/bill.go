@@ -38,11 +38,12 @@ func (b *bill) updateQuantity(quantity int) { //? use reference to update quanti
 }
 func (b *bill) addItem(name string, price float64) { b.items[name] = price }
 
+//? save file
 func (b *bill) saveFile() {
-	data := []byte(b.format())
-	err := os.WriteFile("bills/"+b.buyerName+".txt", data, 0644)
+	data := []byte(b.format())                                   //? convert slice of byte
+	err := os.WriteFile("bills/"+b.buyerName+".txt", data, 0644) //? writeFile using os package
 	if err != nil {
-		panic(err)
+		panic(err) //? panic is used to stop the program if there is an error (built-in function)
 	}
 	fmt.Println("Bill was saved to file")
 }

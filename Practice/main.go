@@ -35,6 +35,7 @@ func promptOptions(b bill) {
 	reader := bufio.NewReader(os.Stdin)
 	opt, _ := getInput("Chose option a - add item, s -save bill, q - add quantity", reader)
 	fmt.Println(opt)
-	//?
+	
+	//? file saveing
 	b.saveFile()
 }

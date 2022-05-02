@@ -14,9 +14,7 @@ func main() {
 }
 func createBill() bill {
 	reader := bufio.NewReader(os.Stdin)
-
 	name, _ := getInput("Create a new bill name : ", reader)
-
 	b := newBill(name)
 	fmt.Println("Created a new bill - ", b.buyerName)
 

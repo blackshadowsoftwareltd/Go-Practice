@@ -91,7 +91,7 @@ func createTask(w http.ResponseWriter, r *http.Request) {
 /*
 //? update task route (1st way)
 func updateTask(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Home Page") //? link : 127.0.0.1:8080/updateTask/1
+	fmt.Println("Home Page") //? link : 127.0.0.1:8080/updateTask/1 
 	w.Header().Set("Content-Type", "application/json")
 	_params := mux.Vars(r) //? get data from url like /1
 	var _task Tasks

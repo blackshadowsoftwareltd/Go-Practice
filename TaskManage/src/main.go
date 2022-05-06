@@ -3,11 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"strconv"
-
-	"github.com/gorilla/mux"
+	"time"
 )
 
 var tasks []Tasks
@@ -72,13 +72,11 @@ func createTask(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewDecoder(r.Body).Decode(&_task) //? decode (r.Body return body)
 	_taskLength := len(tasks)                  //? task length
 	_task.ID = strconv.Itoa(_taskLength)       //? initialize a incremented id
-
+	_task.Date = time.Now()
 	if _task.TaskName == "" {
 		errorMessage(w, r, "Task name can't be empty")
 	} else if _task.TaskDetail == "" {
 		errorMessage(w, r, "Task detail can't be empty")
-	} else if _task.Date == "" {
-		errorMessage(w, r, "Task date can't be empty")
 	} else {
 		tasks = append(tasks, _task) //? add new task
 
@@ -100,7 +98,7 @@ func deleteTask(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Home Page")
 }
 
-//? send message
+///? send message
 func sendMessage(w http.ResponseWriter, r *http.Request, message string) {
 	json.NewEncoder(w).Encode(map[string]string{"message": message}) //? success message
 }
@@ -117,13 +115,13 @@ func allTaskList() {
 		ID:         "0",
 		TaskName:   "Task 1",
 		TaskDetail: "Task 1 Detail",
-		Date:       "2020-01-01",
+		Date:       time.Now(),
 	}
 	task2 := Tasks{
 		ID:         "1",
 		TaskName:   "Task 2",
 		TaskDetail: "Task 2 Detail",
-		Date:       "2020-01-02",
+		Date:       time.Now(),
 	}
 
 	tasks = append(tasks, task1)
@@ -133,8 +131,8 @@ func allTaskList() {
 
 //? struct
 type Tasks struct {
-	ID         string `json:"id"`
-	TaskName   string `json:"taskName"`
-	TaskDetail string `json:"taskDetail"`
-	Date       string `json:"date"`
+	ID         string    `json:"id"`
+	TaskName   string    `json:"taskName"`
+	TaskDetail string    `json:"taskDetail"`
+	Date       time.Time `json:"date"`
 }

@@ -43,10 +43,10 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 //? get task route
 func getTask(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Get task") //? link : 127.0.0.1:8080/getTask/1
-	_data := mux.Vars(r)    //? get data from url like /1
+	_params := mux.Vars(r)  //? get data from url like /1
 	_flag := false
 	for index, value := range tasks {
-		if _data["id"] == value.ID {
+		if _params["id"] == value.ID {
 			json.NewEncoder(w).Encode(tasks[index]) //? encode
 			_flag = true
 			break
@@ -88,9 +88,56 @@ func createTask(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//? update task route
+/*
+//? update task route (1st way)
 func updateTask(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Home Page")
+	fmt.Println("Home Page") //? link : 127.0.0.1:8080/updateTask/1
+	w.Header().Set("Content-Type", "application/json")
+	_params := mux.Vars(r) //? get data from url like /1
+	var _task Tasks
+	_ = json.NewDecoder(r.Body).Decode(&_task) //? decode (r.Body return body)
+	_id, _ := strconv.Atoi(_params["id"])      //? id from paramiter
+	_data := tasks[_id]
+
+	if _task.TaskName != "" || _task.TaskDetail != "" {
+		if _task.TaskName != "" {
+			_data.TaskName = _task.TaskName
+		}
+		if _task.TaskDetail != "" {
+			_data.TaskDetail = _task.TaskDetail
+		}
+		_data.Date = time.Now()
+		tasks[_id] = _data
+		sendMessage(w, r, "success")
+	} else {
+		sendMessage(w, r, "Task can't be empty")
+	}
+}
+*/
+
+//? update task route (2nd way)
+func updateTask(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Home Page") //? link : 127.0.0.1:8080/updateTask/1
+	w.Header().Set("Content-Type", "application/json")
+	_params := mux.Vars(r) //? get data from url like /1
+	var _task Tasks
+	_ = json.NewDecoder(r.Body).Decode(&_task) //? decode (r.Body return body)
+	_id, _ := strconv.Atoi(_params["id"])      //? id from paramiter
+	_data := &tasks[_id]
+
+	if _task.TaskName != "" || _task.TaskDetail != "" {
+		if _task.TaskName != "" {
+			_data.TaskName = _task.TaskName
+		}
+		if _task.TaskDetail != "" {
+			_data.TaskDetail = _task.TaskDetail
+		}
+		_data.Date = time.Now()
+		tasks[_id] = *_data
+		sendMessage(w, r, "success")
+	} else {
+		sendMessage(w, r, "Task can't be empty")
+	}
 }
 
 //? delete task route

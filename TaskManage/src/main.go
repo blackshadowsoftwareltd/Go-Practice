@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 var tasks []Tasks
@@ -41,16 +42,16 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 //? get task route
 func getTask(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Get task") //? link : 127.0.0.1:8080/getTask/1
-	data := mux.Vars(r)
-	flag := false
+	_data := mux.Vars(r)    //? get data from url like /1
+	_flag := false
 	for index, value := range tasks {
-		if data["id"] == value.ID {
-			json.NewEncoder(w).Encode(tasks[index])
-			flag = true
+		if _data["id"] == value.ID {
+			json.NewEncoder(w).Encode(tasks[index]) //? encode
+			_flag = true
 			break
 		}
 	}
-	if flag == false {
+	if _flag == false {
 		json.NewEncoder(w).Encode(map[string]string{"error": "Task not found"})
 	}
 }
@@ -59,12 +60,25 @@ func getTask(w http.ResponseWriter, r *http.Request) {
 func getAllTasks(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("All tasks") //? link : 127.0.0.1:8080/getAllTasks
 	w.Header().Set("Content-Type", "application/")
-	json.NewEncoder(w).Encode(tasks)
+	json.NewEncoder(w).Encode(tasks) //? encode
 }
 
 //? create task route
 func createTask(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Home Page")
+	w.Header().Set("Content-Type", "application/json")
+	var _task Tasks
+	_ = json.NewDecoder(r.Body).Decode(&_task) //? decode (r.Body return body)
+	_taskLength := len(tasks)                  //? task length
+	_task.ID = strconv.Itoa(_taskLength)       //? initialize a incremented id
+	tasks = append(tasks, _task)               //? add new task
+
+	if len(tasks) != _taskLength { //? that means, new task add in the slice
+		json.NewEncoder(w).Encode(map[string]string{"message": "success"}) //? success message
+	} else {
+		json.NewEncoder(w).Encode(map[string]string{"message": "failed"}) //? failed message
+
+	}
 }
 
 //? update task route
@@ -81,13 +95,13 @@ func deleteTask(w http.ResponseWriter, r *http.Request) {
 //? initialize tasks
 func allTaskList() {
 	task1 := Tasks{
-		ID:         "1",
+		ID:         "0",
 		TaskName:   "Task 1",
 		TaskDetail: "Task 1 Detail",
 		Date:       "2020-01-01",
 	}
 	task2 := Tasks{
-		ID:         "2",
+		ID:         "1",
 		TaskName:   "Task 2",
 		TaskDetail: "Task 2 Detail",
 		Date:       "2020-01-02",

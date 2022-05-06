@@ -3,10 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 var tasks []Tasks
@@ -52,7 +53,7 @@ func getTask(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	if _flag == false {
-		json.NewEncoder(w).Encode(map[string]string{"error": "Task not found"})
+		errorMessage(w, r, "task not found")
 	}
 }
 
@@ -71,13 +72,21 @@ func createTask(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewDecoder(r.Body).Decode(&_task) //? decode (r.Body return body)
 	_taskLength := len(tasks)                  //? task length
 	_task.ID = strconv.Itoa(_taskLength)       //? initialize a incremented id
-	tasks = append(tasks, _task)               //? add new task
 
-	if len(tasks) != _taskLength { //? that means, new task add in the slice
-		json.NewEncoder(w).Encode(map[string]string{"message": "success"}) //? success message
+	if _task.TaskName == "" {
+		errorMessage(w, r, "Task name can't be empty")
+	} else if _task.TaskDetail == "" {
+		errorMessage(w, r, "Task detail can't be empty")
+	} else if _task.Date == "" {
+		errorMessage(w, r, "Task date can't be empty")
 	} else {
-		json.NewEncoder(w).Encode(map[string]string{"message": "failed"}) //? failed message
+		tasks = append(tasks, _task) //? add new task
 
+		if len(tasks) != _taskLength { //? that means, new task add in the slice
+			sendMessage(w, r, "success")
+		} else {
+			sendMessage(w, r, "failed")
+		}
 	}
 }
 
@@ -89,6 +98,16 @@ func updateTask(w http.ResponseWriter, r *http.Request) {
 //? delete task route
 func deleteTask(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Home Page")
+}
+
+//? send message
+func sendMessage(w http.ResponseWriter, r *http.Request, message string) {
+	json.NewEncoder(w).Encode(map[string]string{"message": message}) //? success message
+}
+
+//? error message
+func errorMessage(w http.ResponseWriter, r *http.Request, message string) {
+	json.NewEncoder(w).Encode(map[string]string{"error": message})
 }
 
 /////////////////////////////////////////////////////////

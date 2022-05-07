@@ -23,12 +23,12 @@ func main() {
 //? create routes
 func handlRoutes() {
 	router := mux.NewRouter()
-	router.HandleFunc("/", homePage).Methods("GET")               //? link : 127.0.0.1:8080/
-	router.HandleFunc("/getTask/{id}", getTask).Methods("GET")    //? link : 127.0.0.1:8080/getTask/1
-	router.HandleFunc("/getAllTasks", getAllTasks).Methods("GET") //? link : 127.0.0.1:8080/getAllTasks
-	router.HandleFunc("/createTask", createTask).Methods("POST")  //? link : 127.0.0.1:8080/updateTask/1
-	router.HandleFunc("/updateTask/{id}", updateTask).Methods("PUT")
-	router.HandleFunc("/deleteTask/{id}", deleteTask).Methods("DELETE")
+	router.HandleFunc("/", homePage).Methods("GET")                                       //? link : 127.0.0.1:8080/
+	router.HandleFunc("/getTask/", getTask).Queries("id", "{id}").Methods("GET")          //? link : 127.0.0.1:8080/getTask/1
+	router.HandleFunc("/getAllTasks", getAllTasks).Methods("GET")                         //? link : 127.0.0.1:8080/getAllTasks
+	router.HandleFunc("/createTask", createTask).Methods("POST")                          //? link : 127.0.0.1:8080/createTask
+	router.HandleFunc("/updateTask/", updateTask).Queries("id", "{id}").Methods("PUT")    //? link : 127.0.0.1:8080/updateTask/1
+	router.HandleFunc("/deleteTask/", deleteTask).Queries("id", "{id}").Methods("DELETE") //? link : 127.0.0.1:8080/deleteTask/1
 	//?
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

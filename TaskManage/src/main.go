@@ -26,7 +26,7 @@ func handlRoutes() {
 	router.HandleFunc("/", homePage).Methods("GET")               //? link : 127.0.0.1:8080/
 	router.HandleFunc("/getTask/{id}", getTask).Methods("GET")    //? link : 127.0.0.1:8080/getTask/1
 	router.HandleFunc("/getAllTasks", getAllTasks).Methods("GET") //? link : 127.0.0.1:8080/getAllTasks
-	router.HandleFunc("/createTask", createTask).Methods("POST")
+	router.HandleFunc("/createTask", createTask).Methods("POST")  //? link : 127.0.0.1:8080/updateTask/1
 	router.HandleFunc("/updateTask/{id}", updateTask).Methods("PUT")
 	router.HandleFunc("/deleteTask/{id}", deleteTask).Methods("DELETE")
 	//?
@@ -91,7 +91,7 @@ func createTask(w http.ResponseWriter, r *http.Request) {
 /*
 //? update task route (1st way)
 func updateTask(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Home Page") //? link : 127.0.0.1:8080/updateTask/1 
+	fmt.Println("Home Page") //? link : 127.0.0.1:8080/updateTask/1
 	w.Header().Set("Content-Type", "application/json")
 	_params := mux.Vars(r) //? get data from url like /1
 	var _task Tasks
@@ -119,10 +119,10 @@ func updateTask(w http.ResponseWriter, r *http.Request) {
 func updateTask(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Home Page") //? link : 127.0.0.1:8080/updateTask/1
 	w.Header().Set("Content-Type", "application/json")
-	_params := mux.Vars(r) //? get data from url like /1
+	_params := mux.Vars(r)                //? get data from url like /1
+	_id, _ := strconv.Atoi(_params["id"]) //? id from paramiter
 	var _task Tasks
 	_ = json.NewDecoder(r.Body).Decode(&_task) //? decode (r.Body return body)
-	_id, _ := strconv.Atoi(_params["id"])      //? id from paramiter
 	_data := &tasks[_id]
 
 	if _task.TaskName != "" || _task.TaskDetail != "" {
@@ -142,7 +142,19 @@ func updateTask(w http.ResponseWriter, r *http.Request) {
 
 //? delete task route
 func deleteTask(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Home Page")
+	fmt.Println("Home Page") //? link : 127.0.0.1:8080/deleteTask/1
+	_id := mux.Vars(r)["id"] //? get data from url like /1
+	_flag := false
+	for index, value := range tasks {
+		if value.ID == _id {
+			tasks = append(tasks[:index], tasks[index+1:]...)
+			_flag = true
+			sendMessage(w, r, "success")
+		}
+	}
+	if _flag == false {
+		errorMessage(w, r, "Invalid id")
+	}
 }
 
 ///? send message

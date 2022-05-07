@@ -3,11 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 var tasks []Tasks
@@ -23,12 +24,12 @@ func main() {
 //? create routes
 func handlRoutes() {
 	router := mux.NewRouter()
-	router.HandleFunc("/", homePage).Methods("GET")                                       //? link : 127.0.0.1:8080/
-	router.HandleFunc("/getTask/", getTask).Queries("id", "{id}").Methods("GET")          //? link : 127.0.0.1:8080/getTask/1
-	router.HandleFunc("/getAllTasks", getAllTasks).Methods("GET")                         //? link : 127.0.0.1:8080/getAllTasks
-	router.HandleFunc("/createTask", createTask).Methods("POST")                          //? link : 127.0.0.1:8080/createTask
-	router.HandleFunc("/updateTask/", updateTask).Queries("id", "{id}").Methods("PUT")    //? link : 127.0.0.1:8080/updateTask/1
-	router.HandleFunc("/deleteTask/", deleteTask).Queries("id", "{id}").Methods("DELETE") //? link : 127.0.0.1:8080/deleteTask/1
+	router.HandleFunc("/", homePage).Methods("GET")                     //? link : 127.0.0.1:8080/
+	router.HandleFunc("/getTask/{id}", getTask).Methods("GET")          //? link : 127.0.0.1:8080/getTask/1
+	router.HandleFunc("/getAllTasks", getAllTasks).Methods("GET")       //? link : 127.0.0.1:8080/getAllTasks
+	router.HandleFunc("/createTask", createTask).Methods("POST")        //? link : 127.0.0.1:8080/createTask
+	router.HandleFunc("/updateTask/{id}", updateTask).Methods("PUT")    //? link : 127.0.0.1:8080/updateTask/1
+	router.HandleFunc("/deleteTask/{id}", deleteTask).Methods("DELETE") //? link : 127.0.0.1:8080/deleteTask/1
 	//?
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
@@ -143,6 +144,7 @@ func updateTask(w http.ResponseWriter, r *http.Request) {
 //? delete task route
 func deleteTask(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Home Page") //? link : 127.0.0.1:8080/deleteTask/1
+	w.Header().Set("Content-Type", "application/json")
 	_id := mux.Vars(r)["id"] //? get data from url like /1
 	_flag := false
 	for index, value := range tasks {

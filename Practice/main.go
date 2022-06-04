@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"sort"
+	"strings"
 )
 
 func main() {
@@ -15,17 +15,26 @@ func main() {
 	}
 	fmt.Println(users)
 
-	///? sorting by age (int)
-	sort.Slice(users, func(i, j int) bool {
-		return users[i].Age < users[j].Age
-	})
-	fmt.Println(users)
+	///? searching in slice by name (raw way)
+	var newUsers []User
+	for _, u := range users {
+		if strings.Contains(strings.ToLower(u.Name), strings.ToLower("k")) {
+			newUsers = append(newUsers, u)
+		}
+	}
+	fmt.Println(newUsers)
+	///? is contsins in a slice
+	fmt.Println("is contains", isContainsInSlice(users, "x"))
+}
 
-	///? sorting by name (string)
-	sort.Slice(users, func(x, y int) bool {
-		return users[x].Name < users[y].Name
-	})
-	fmt.Println(users)
+///? is contains in a slice
+func isContainsInSlice(s []User, name string) bool {
+	for _, u := range s {
+		if strings.Contains(strings.ToLower(u.Name), strings.ToLower(name)) {
+			return true
+		}
+	}
+	return false
 
 }
 

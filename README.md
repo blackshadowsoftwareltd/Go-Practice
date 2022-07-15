@@ -1,4 +1,4 @@
-go practice 
+GO Practice 
 ------------ 
-practice
+Practice
 ------------

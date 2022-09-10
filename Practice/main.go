@@ -10,6 +10,6 @@ func main() {
 }
 var emptyInterface interface{}
 
-func found(i interface{}){
-	fmt.Printf("Type %T, value %v\n",i,i)
+func found(emptyInterface interface{}){
+	fmt.Printf("Type %T, value %v\n",emptyInterface,emptyInterface)
 }

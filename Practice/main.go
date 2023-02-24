@@ -1,15 +1,26 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
- s:="Hello World"
- found(s)
- i:=10
- found(i)
-}
-var emptyInterface interface{}
+	fmt.Println(time.Now().UTC().Local())
+	x := 5
 
-func found(emptyInterface interface{}){
-	fmt.Printf("Type %T, value %v\n",emptyInterface,emptyInterface)
+	if x == 1 {
+		fmt.Println("x is 1")
+	} else if x == 2 {
+		fmt.Println("x is 2")
+	} else if x == 3 {
+		fmt.Println("x is 3")
+	} else if x == 4 {
+		fmt.Println("x is 4")
+	} else if x == 5 {
+		fmt.Println("x is 5")
+	} else {
+		fmt.Println("x is not found")
+	}
+	fmt.Println(time.Now().UTC().Local())
 }
